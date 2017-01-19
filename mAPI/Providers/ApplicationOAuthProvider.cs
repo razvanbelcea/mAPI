@@ -10,6 +10,8 @@ using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.OAuth;
 using mAPI.Models;
+using testsetse;
+using testsetse.Models;
 
 namespace mAPI.Providers
 {

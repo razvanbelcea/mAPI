@@ -12,5 +12,7 @@ namespace mAPI.Models
         public string IPAddress { get; set; }
         public bool Online { get; set; }
         public int StoreID { get; set; }
+        public string VersionID { get; set; }
+        public string hfNo { get; set; }
     }
 }

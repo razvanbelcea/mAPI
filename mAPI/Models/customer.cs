@@ -5,10 +5,14 @@ using System.Web;
 
 namespace mAPI.Models
 {
-    public class customer
+    public class Customer
     {
-            public int szCustomerID { get; set; }
-            public string Name { get; set; }
-            public int ManagerId { get; set; }
+        public string CustomerID { get; set; }
+        public int StoreNo { get; set; }
+        public int CH { get; set; }
+        public int CV { get; set; }
+        public int DistributionLineCode { get; set; }
+        public int NumbericCountryCode { get; set; }
+
     }
 }

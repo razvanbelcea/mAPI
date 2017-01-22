@@ -13,6 +13,6 @@ namespace mAPI.Models
         public int lOperatorID { get; set; }
         public int lWorkstationNmbr { get; set; }
         public string IP { get; set; }
-        public bool online { get; set; }
+        public string status { get; set; }
     }
 }

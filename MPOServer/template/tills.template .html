@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<body>
+   
+    <div class="col-md-6">
+        <table class="table table-striped table-hover ">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Till Name</th>
+                    <th>Till IP</th>
+                    <th>Till Type</th>
+                    <th>Operator</th>
+                    <th>Printer</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="#till of tills">
+                    <td>1</td>
+                    <td>{{till.lWorkstationNmbr}}</td>
+                    <td>{{till.szWorkstationID}}</td>
+                    <td>1</td>
+                    <td>3</td>
+                    <td>2</td>
+                </tr>
+                <tr class="danger">
+                    <td>5</td>
+                    <td>Column content</td>
+                    <td>Column content</td>
+                    <td>Column content</td>
+                    <td>Column content</td>
+                    <td>Column content</td>
+                </tr>
+                <tr class="danger">
+                    <td>6</td>
+                    <td>Column content</td>
+                    <td>Column content</td>
+                    <td>Column content</td>
+                    <td>Column content</td>
+                    <td>Column content</td>
+                </tr>
+            </tbody>
+        </table> 
+    </div>
+
+</body>
+</html>

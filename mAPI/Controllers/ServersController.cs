@@ -50,20 +50,20 @@ namespace mAPI.Controllers
                 server.StoreID = Convert.ToInt16(reader.GetValue(3).ToString());
                 server.Online = false;
 
-                Ping ping = new Ping();
-                try
-                {
-                    PingReply pingReply = ping.Send(reader.GetValue(2).ToString());
-                    if (pingReply.Status == IPStatus.Success)
-                    {
-                        server.Online = true;
-                    }
-                }
+                //Ping ping = new Ping();
+                //try
+                //{
+                //    PingReply pingReply = ping.Send(reader.GetValue(2).ToString());
+                //    if (pingReply.Status == IPStatus.Success)
+                //    {
+                //        server.Online = true;
+                //    }
+                //}
 
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex);
-                }
+                //catch (Exception ex)
+                //{
+                //    Console.WriteLine(ex);
+                //}
                 listofservers.Add(server);
 
             }

@@ -18,12 +18,12 @@ namespace mAPI.Controllers
         public List<Workstation> Get(string ip)
         {
             var listofwks = new List<Workstation>();
-            //var myConnectionString = "Data Source=" + ip + ".mpos.madm.net" + ";Database=TPCentralDB;Integrated Security=true;";
-            //var commandtext = "select szWorkstationID, lWorkstationNmbr, szWorkstationGroupID, lOperatorID from workstation left join operator on lLoggedOnWorkstationNmbr = lWorkstationNmbr where bisthickpos<> 0";
+            var myConnectionString = "Data Source=" + ip + ".mpos.madm.net" + ";Database=TPCentralDB;Integrated Security=true;";
+            var commandtext = "select szWorkstationID, lWorkstationNmbr, szWorkstationGroupID, lOperatorID from workstation left join operator on lLoggedOnWorkstationNmbr = lWorkstationNmbr where bisthickpos<> 0";
 
             //for testing only
-            var myConnectionString = @"Data Source=IAM\SQLEXPRESS;Database=Test;Integrated Security=true;";
-            var commandtext = "select name, workstationnmbr, type, operator from workstation";
+            //var myConnectionString = @"Data Source=IAM\SQLEXPRESS;Database=Test;Integrated Security=true;";
+            //var commandtext = "select name, workstationnmbr, type, operator from workstation";
 
             using (SqlConnection con = new SqlConnection(myConnectionString))
             {

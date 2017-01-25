@@ -26,6 +26,7 @@ namespace mAPI.Controllers
         [HttpGet]
         public List<Customer> Get(string ip, int ctype)
         {
+            var listofcustomer = new List<Customer>();
             var myConnectionString = @"Data Source=" + ip + ".mpos.madm.net" + ";Database=TPCentralDB;Integrated Security=true;";
             var CommandText = "";
 
@@ -113,13 +114,11 @@ namespace mAPI.Controllers
                     break;
             }
 
-            var listofcustomer = new List<Customer>();
 
             using (SqlConnection con = new SqlConnection(myConnectionString))
             {
                 using (SqlCommand command = new SqlCommand(CommandText, con))
-                {
-                    Customer newcustomer = new Customer();
+                {                   
                     con.Open();
                     using (SqlDataReader reader = command.ExecuteReader())
                     {
@@ -127,6 +126,7 @@ namespace mAPI.Controllers
                         {
                             try
                             {
+                                Customer newcustomer = new Customer();
                                 newcustomer.CustomerID = reader.GetValue(0).ToString();
                                 newcustomer.StoreNo = Convert.ToInt16(reader.GetValue(1).ToString());
                                 newcustomer.CH = Convert.ToInt16(reader.GetValue(2).ToString());

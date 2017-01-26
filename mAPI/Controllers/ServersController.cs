@@ -1,4 +1,5 @@
-﻿using mAPI.Models;
+﻿
+using mAPI.Models;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -17,57 +18,64 @@ namespace mAPI.Controllers
         [HttpGet]
         public List<Servers> Get(string env)
         {
-            //return listEmp.First(e => e.ID == id);  
-            SqlDataReader reader = null;
-            SqlConnection myConnection = new SqlConnection();
-            myConnection.ConnectionString = "Data Source=10.21.22.136;Database=mposx_usi;User ID=DevReadOnly;Password=Pa$$w0rd;";
-
-            SqlCommand sqlCmd = new SqlCommand();
-            sqlCmd.CommandType = CommandType.Text;
+            var listofservers = new List<Servers>();
+            var myConnectionString = "Data Source=10.21.22.136;Database=mposx_usi;User ID=DevReadOnly;Password=Pa$$w0rd;";
+            var CommandText = "";
             switch (env.ToUpper())
             {
                 case "QA":
-                    sqlCmd.CommandText = "select a.MachineNameAlias,c.MyRegionCode,m.IPAddress,s.externalstoreid from dbo.MachineNameAliases a join Machines m ON a.MAC=m.MAC join Stores s ON m.MyStoreID=s.ID join Cities c on c.CityCode=s.MyCityCode where (a.MachineNameAlias like '%MPSQ%')";
+                    CommandText = "select a.MachineNameAlias,c.MyRegionCode,m.IPAddress,s.externalstoreid from dbo.MachineNameAliases a join Machines m ON a.MAC=m.MAC join Stores s ON m.MyStoreID=s.ID join Cities c on c.CityCode=s.MyCityCode where (a.MachineNameAlias like '%MPSQ%')";
                     break;
                 case "UAT":
-                    sqlCmd.CommandText = "select a.MachineNameAlias,c.MyRegionCode,m.IPAddress,s.externalstoreid from dbo.MachineNameAliases a join Machines m ON a.MAC=m.MAC join Stores s ON m.MyStoreID=s.ID join Cities c on c.CityCode=s.MyCityCode where (a.MachineNameAlias like '%MPSU%')";
+                    CommandText = "select a.MachineNameAlias,c.MyRegionCode,m.IPAddress,s.externalstoreid from dbo.MachineNameAliases a join Machines m ON a.MAC=m.MAC join Stores s ON m.MyStoreID=s.ID join Cities c on c.CityCode=s.MyCityCode where (a.MachineNameAlias like '%MPSU%')";
                     break;
                 case "DEV":
-                    sqlCmd.CommandText = "select a.MachineNameAlias,c.MyRegionCode,m.IPAddress,s.externalstoreid from dbo.MachineNameAliases a join Machines m ON a.MAC=m.MAC join Stores s ON m.MyStoreID=s.ID join Cities c on c.CityCode=s.MyCityCode where (a.MachineNameAlias like '%MPSD%')";
+                    CommandText = "select a.MachineNameAlias,c.MyRegionCode,m.IPAddress,s.externalstoreid from dbo.MachineNameAliases a join Machines m ON a.MAC=m.MAC join Stores s ON m.MyStoreID=s.ID join Cities c on c.CityCode=s.MyCityCode where (a.MachineNameAlias like '%MPSD%')";
                     break;
             }
-            sqlCmd.Connection = myConnection;
-            myConnection.Open();
-            reader = sqlCmd.ExecuteReader();
-            Servers server = null;
-            var listofservers = new List<Servers>();
-            while (reader.Read())
+
+            //for testing only
+            //var myConnectionString = @"Data Source=IAM\SQLEXPRESS;Database=Test;Integrated Security=true;";
+            //var CommandText = "select name, workstationnmbr, type, operator from workstation";
+
+            using (SqlConnection con = new SqlConnection(myConnectionString))
             {
-                server = new Servers();
-                server.IPAddress = reader.GetValue(2).ToString();
-                server.MachineNameAlias = reader.GetValue(0).ToString();
-                server.MyRegionCode = reader.GetValue(1).ToString();
-                server.StoreID = Convert.ToInt16(reader.GetValue(3).ToString());
-                server.Online = false;
+                using (SqlCommand command = new SqlCommand(CommandText, con))
+                {
+                    Servers server = new Servers();
+                    con.Open();
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            server = new Servers();
+                            server.IPAddress = reader.GetValue(2).ToString();
+                            server.MachineNameAlias = reader.GetValue(0).ToString();
+                            server.MyRegionCode = reader.GetValue(1).ToString();
+                            server.StoreID = Convert.ToInt16(reader.GetValue(3).ToString());
+                            server.Online = false;
 
-                //Ping ping = new Ping();
-                //try
-                //{
-                //    PingReply pingReply = ping.Send(reader.GetValue(2).ToString());
-                //    if (pingReply.Status == IPStatus.Success)
-                //    {
-                //        server.Online = true;
-                //    }
-                //}
+                            //Ping ping = new Ping();
+                            //try
+                            //{
+                            //    PingReply pingReply = ping.Send(reader.GetValue(2).ToString());
+                            //    if (pingReply.Status == IPStatus.Success)
+                            //    {
+                            //        server.Online = true;
+                            //    }
+                            //}
 
-                //catch (Exception ex)
-                //{
-                //    Console.WriteLine(ex);
-                //}
-                listofservers.Add(server);
+                            //catch (Exception ex)
+                            //{
+                            //    Console.WriteLine(ex);
+                            //}
+                            listofservers.Add(server);
+
+                        }
+                    }
+                }
 
             }
-            myConnection.Close();
             return listofservers;
         }
     }

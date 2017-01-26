@@ -29,7 +29,7 @@ namespace mAPI.Controllers
             {
                 using (SqlCommand command = new SqlCommand(commandtext, con))
                 {                    
-                    Workstation till = null;
+                    Workstation till = new Workstation();
                     con.Open();
                     using (SqlDataReader reader = command.ExecuteReader())
                     {
@@ -43,7 +43,7 @@ namespace mAPI.Controllers
                                                  : Convert.ToInt16(reader.GetValue(3)); ;
                             till.lWorkstationNmbr = Convert.ToInt16(reader.GetValue(1));
                             till.IP = "VirtualClient";
-                            till.online = false;
+                            till.status = "offline";
 
                             Ping ping = new Ping();
                             var hostname = reader.GetValue(0).ToString() + ".mpos.madm.net";
@@ -54,7 +54,7 @@ namespace mAPI.Controllers
                                 {
                                     IPAddress[] IpInHostAddress = Dns.GetHostAddresses(reader.GetValue(0).ToString() + ".mpos.madm.net");
                                     till.IP = IpInHostAddress[0].ToString();
-                                    till.online = true;
+                                    till.status = "online";
                                 }
                             }
 
